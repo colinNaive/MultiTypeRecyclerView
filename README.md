@@ -1,0 +1,1 @@
+实现了RecyclerView代替ScrollView，提出了一种结构非常清晰的实现Multiple type recyclerview
