@@ -7,5 +7,5 @@ import java.io.Serializable;
  * @email zhshan@ctrip.com
  */
 
-public class TabInfo implements IIndependentTravleData, Serializable {
+public class TabInfo implements Serializable {
 }

@@ -7,5 +7,5 @@ import java.io.Serializable;
  * @email zhshan@ctrip.com
  */
 
-public class SearchInfo implements IIndependentTravleData, Serializable {
+public class SearchInfo implements Serializable {
 }

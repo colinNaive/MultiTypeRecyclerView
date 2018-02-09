@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.ctrip.zhshan.multirecyclerview.delegate.AdapterDelegate;
+import com.ctrip.zhshan.multirecyclerview.delegate.SuperDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,17 +15,17 @@ import java.util.List;
  */
 
 public class AdapterViewHolderManager {
-    private List<AdapterDelegate> delegates = new ArrayList<AdapterDelegate>();
+    private List<SuperDelegate> delegates;
 
-    public void addDelegate(AdapterDelegate delegate) {
-        delegates.add(delegate);
+    public void setDelegates(List<SuperDelegate> delegates) {
+        this.delegates = delegates;
     }
 
-    public int getItemViewType(@NonNull List items, int position) {
+    public int getItemViewType(int position) {
         if (delegates != null) {
-            AdapterDelegate delegate = delegates.get(position);
+            SuperDelegate delegate = delegates.get(position);
             if (delegate != null) {
-                return delegate.getItemViewType(items, position);
+                return delegate.getItemViewType(position);
             } else {
                 return -1;
             }
@@ -34,22 +34,37 @@ public class AdapterViewHolderManager {
         }
     }
 
-    @NonNull public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
-        AdapterDelegate delegate = getDelegateFromViewType(ViewType);
+    public void setRangeRenderEnable(int position, int size){
+        for(int n = position; n < size; n++){
+            delegates.get(n).uiFlag = true;
+        }
+    }
+
+    public void setItemRenderEnable(int position) {
+        delegates.get(position).uiFlag = true;
+    }
+
+    @NonNull
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
+        SuperDelegate delegate = getDelegateFromViewType(ViewType);
         if (delegate != null) {
             return delegate.onCreateViewHolder(parent);
         }
         return null;
     }
 
-    public void onBindViewHolder(@NonNull List items, int position, @NonNull RecyclerView.ViewHolder viewHolder) {
-        AdapterDelegate delegate = getDelegateFromViewType(viewHolder.getItemViewType());
+    public void onBindViewHolder(int position, @NonNull RecyclerView.ViewHolder viewHolder) {
+        SuperDelegate delegate = getDelegateFromViewType(position);
         if (delegate != null) {
-            delegate.onBindViewHolder(items, position, viewHolder);
+            delegate.onBindViewHolder(viewHolder);
         }
     }
 
-    public AdapterDelegate getDelegateFromViewType(int viewType) {
+    public SuperDelegate getDelegateFromViewType(int viewType) {
         return delegates.get(viewType);
+    }
+
+    public int getItemCount() {
+        return delegates.size();
     }
 }
