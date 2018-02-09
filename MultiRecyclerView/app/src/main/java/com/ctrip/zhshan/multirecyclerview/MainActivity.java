@@ -20,10 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private LinearLayoutManager layoutManager;
-    public enum ItemType {
-        LOCATE_SEARCH_ITEM, TAB_ITEM, SPECIAL_SELLING_ITEM, POPULAR_PRODUCT_ITEM, X_RESOURCE_ITEM
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
